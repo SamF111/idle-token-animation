@@ -1,0 +1,125 @@
+{{!-- D:\FoundryVTT\Data\modules\idle-token-animation\templates\token-config-idle-animation.hbs --}}
+
+<div class="tab idle-token-animation-token-tab" data-tab="{{tabId}}" hidden>
+  <section class="ita-token-section">
+    <p class="ita-token-muted">
+      Configure idle animation for this placed token only. These settings are stored as token flags and are saved with Update Token.
+    </p>
+
+    <label class="ita-token-checkbox-row">
+      <input
+        type="checkbox"
+        name="flags.idle-token-animation.disabled"
+        value="true"
+        {{checked disabled}}
+      />
+      <span>
+        <strong>Disable idle animation for this token</strong>
+        <small>This token will not animate, even if it is otherwise eligible.</small>
+      </span>
+    </label>
+
+    <hr />
+
+    <label class="ita-token-checkbox-row">
+      <input
+        type="checkbox"
+        name="flags.idle-token-animation.motionOverride.enabled"
+        value="true"
+        {{checked overrideEnabled}}
+      />
+      <span>
+        <strong>Override global motion settings</strong>
+        <small>Use custom motion values for this placed token.</small>
+      </span>
+    </label>
+
+    <fieldset data-idle-animation-motion-fields>
+      <legend>Motion Override</legend>
+
+      <div class="ita-token-grid">
+        <label>
+          <span>Motion strength</span>
+          <input
+            type="number"
+            name="flags.idle-token-animation.motionOverride.amount"
+            value="{{values.amount}}"
+            min="0"
+            max="5"
+            step="0.1"
+          />
+        </label>
+
+        <label>
+          <span>Speed, cycles/s</span>
+          <input
+            type="number"
+            name="flags.idle-token-animation.motionOverride.freqHz"
+            value="{{values.freqHz}}"
+            min="0.01"
+            max="3"
+            step="0.01"
+          />
+        </label>
+
+        <label>
+          <span>Irregularity</span>
+          <input
+            type="number"
+            name="flags.idle-token-animation.motionOverride.noise"
+            value="{{values.noise}}"
+            min="0"
+            max="0.5"
+            step="0.01"
+          />
+        </label>
+
+        <label>
+          <span>Vertical bob, px</span>
+          <input
+            type="number"
+            name="flags.idle-token-animation.motionOverride.bobPx"
+            value="{{values.bobPx}}"
+            min="0"
+            max="10"
+            step="0.05"
+          />
+        </label>
+
+        <label>
+          <span>Horizontal sway, px</span>
+          <input
+            type="number"
+            name="flags.idle-token-animation.motionOverride.swayPx"
+            value="{{values.swayPx}}"
+            min="0"
+            max="10"
+            step="0.05"
+          />
+        </label>
+
+        <label>
+          <span>Tilt angle, deg</span>
+          <input
+            type="number"
+            name="flags.idle-token-animation.motionOverride.rollDeg"
+            value="{{values.rollDeg}}"
+            min="0"
+            max="15"
+            step="0.05"
+          />
+        </label>
+      </div>
+
+      <label class="ita-token-checkbox-row ita-token-phase-row">
+        <input
+          type="checkbox"
+          name="flags.idle-token-animation.motionOverride.randomPhase"
+          value="true"
+          {{checked values.randomPhase}}
+        />
+        <span>Desynchronise token motion</span>
+      </label>
+    </fieldset>
+  </section>
+</div>
