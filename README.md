@@ -1,5 +1,9 @@
 # Idle Token Animation
 
+![Foundry Version](https://img.shields.io/badge/Foundry-v13%20%7C%20v14-informational)
+![Latest Release](https://img.shields.io/github/v/release/SamF111/idle-token-animation?label=release)
+![Latest Downloads](https://img.shields.io/github/downloads/SamF111/idle-token-animation/latest/idle-token-animation.zip?label=latest%20downloads)
+
 Idle Token Animation adds subtle ambient motion to living tokens in Foundry VTT.
 
 Tokens with HP above 0 can gently bob, sway, and tilt while remaining in their true scene position. The effect is visual-only: it does not move TokenDocuments, change token coordinates, alter scene data, or affect attacks, ranges, targeting, walls, automation, or grid position.
@@ -7,6 +11,9 @@ Tokens with HP above 0 can gently bob, sway, and tilt while remaining in their t
 The GM controls the global animation amount through world settings. Players do not configure the effect locally.
 
 Actors can be excluded through their Prototype Token configuration. Individual placed tokens can also be excluded.
+
+https://github.com/user-attachments/assets/f0cc10c3-2ccb-402b-8545-c2271b9797ae
+
 
 ## Features
 
@@ -131,25 +138,18 @@ Any disable flag wins.
 
 ## FX Bus compatibility
 
-FX Bus token oscillation takes priority over Idle Token Animation.
+[FX Bus](https://github.com/SamF111/fxbus/) token oscillation takes priority over Idle Token Animation.
 
 When FX Bus starts token oscillation, Idle Token Animation stops animating that token. When FX Bus token oscillation stops, Idle Token Animation requests a fresh eligibility sync.
 
 This prevents two modules from trying to animate the same token render object at the same time.
 
-## Compatibility
+## Optional donation
 
-Initial development target:
+Idle Token Animation is free and open source.
 
-* Foundry VTT v13
-* Module version `0.1.0`
+This project does not accept donations. If you would like to make a donation instead, please consider UNITED24, Ukraine’s official fundraising platform:
 
-## Module identity
+[Donate through UNITED24](https://u24.gov.ua/)
 
-* Module ID: `idle-token-animation`
-* Runtime key: `idleTokenAnimation`
-* Global API: `globalThis.idleTokenAnimation`
-
-## Version
-
-Initial release target: `0.1.0`.
+Idle Token Animation receives no money from this link.
