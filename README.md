@@ -143,3 +143,13 @@ Any disable flag wins.
 When FX Bus starts token oscillation, Idle Token Animation stops animating that token. When FX Bus token oscillation stops, Idle Token Animation requests a fresh eligibility sync.
 
 This prevents two modules from trying to animate the same token render object at the same time.
+
+## Optional donation
+
+Idle Token Animation is free and open source.
+
+This project does not accept donations. If you would like to make a donation instead, please consider UNITED24, Ukraine’s official fundraising platform:
+
+[Donate through UNITED24](https://u24.gov.ua/)
+
+Idle Token Animation receives no money from this link.
