@@ -18,13 +18,6 @@
   ],
   "styles": [],
   "socket": true,
-  "media": [
-    {
-      "type": "setup",
-      "url": "modules/idle-token-animation/assets/idle-token-animation.webp",
-      "thumbnail": "modules/idle-token-animation/assets/idle-token-animation.webp"
-    }
-  ],
   "url": "https://github.com/SamF111/idle-token-animation",
   "readme": "https://raw.githubusercontent.com/SamF111/idle-token-animation/main/README.md",
   "bugs": "https://github.com/SamF111/idle-token-animation/issues",
