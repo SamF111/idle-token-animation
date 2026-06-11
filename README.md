@@ -8,6 +8,9 @@ The GM controls the global animation amount through world settings. Players do n
 
 Actors can be excluded through their Prototype Token configuration. Individual placed tokens can also be excluded.
 
+https://github.com/user-attachments/assets/f0cc10c3-2ccb-402b-8545-c2271b9797ae
+
+
 ## Features
 
 * Subtle idle bob, sway, and tilt for living tokens
