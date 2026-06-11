@@ -48,6 +48,7 @@ async function injectIdleAnimationTab(app, html, _data) {
   }
 
   removeExistingIdleTab(root);
+  repairNativeTabs(root);
   insertNavigationTab(nav);
 
   const tabHtml = await renderIdleAnimationTab(tokenDocument);
@@ -57,6 +58,9 @@ async function injectIdleAnimationTab(app, html, _data) {
     console.warn("[Idle Token Animation] Could not render Idle Animation token tab.");
     return;
   }
+
+  tabElement.classList.remove("active");
+  tabElement.hidden = true;
 
   insertIdleTabElement(root, tabParent, tabElement);
 
@@ -113,6 +117,11 @@ function insertNavigationTab(nav) {
   const link = document.createElement("a");
   link.classList.add("item");
   link.dataset.tab = TAB_ID;
+
+  if (nav.dataset.group) {
+    link.dataset.group = nav.dataset.group;
+  }
+
   link.innerHTML = `<i class="fas fa-wave-square"></i> Idle Animation`;
 
   nav.appendChild(link);
@@ -138,12 +147,18 @@ function insertIdleTabElement(root, tabParent, tabElement) {
 }
 
 /**
- * Bind tab navigation so the injected tab behaves like a normal Token
- * Configuration tab without modifying Foundry core templates.
+ * Bind tab navigation for the injected Idle Animation tab.
+ *
+ * Critical rule:
+ * - Never set hidden=true on native Token Config tabs.
+ * - Only the injected Idle Animation tab may use the hidden attribute.
+ *
+ * Foundry's native tab controller handles the native pages. This bridge only
+ * activates and deactivates the injected page.
  */
 function bindTabNavigation(root, nav) {
   const idleNav = nav.querySelector(`[data-tab="${TAB_ID}"]`);
-  const allNavItems = Array.from(nav.querySelectorAll("[data-tab]"));
+  const navItems = Array.from(nav.querySelectorAll("[data-tab]"));
 
   if (!idleNav) return;
 
@@ -151,10 +166,10 @@ function bindTabNavigation(root, nav) {
     event.preventDefault();
     event.stopPropagation();
 
-    activateIdleTab(root, allNavItems);
+    activateIdleTab(root, navItems);
   });
 
-  for (const navItem of allNavItems) {
+  for (const navItem of navItems) {
     if (navItem.dataset.tab === TAB_ID) continue;
 
     navItem.addEventListener("click", () => {
@@ -166,18 +181,20 @@ function bindTabNavigation(root, nav) {
 /**
  * Activate the injected Idle Animation tab.
  */
-function activateIdleTab(root, allNavItems) {
-  for (const navItem of allNavItems) {
+function activateIdleTab(root, navItems) {
+  for (const navItem of navItems) {
     navItem.classList.toggle("active", navItem.dataset.tab === TAB_ID);
   }
 
-  const tabs = getTabContentElements(root);
+  for (const tab of getTabContentElements(root)) {
+    if (isIdleAnimationTab(tab)) {
+      tab.classList.add("active");
+      tab.hidden = false;
+      continue;
+    }
 
-  for (const tab of tabs) {
-    const isIdleTab = tab.dataset.tab === TAB_ID;
-
-    tab.classList.toggle("active", isIdleTab);
-    tab.hidden = !isIdleTab;
+    tab.classList.remove("active");
+    tab.hidden = false;
   }
 }
 
@@ -187,10 +204,26 @@ function activateIdleTab(root, allNavItems) {
 function deactivateIdleTab(root, idleNav) {
   idleNav.classList.remove("active");
 
-  const idleTab = root.querySelector(`[data-tab="${TAB_ID}"].idle-token-animation-token-tab`);
+  const idleTab = getIdleAnimationTab(root);
+
   if (idleTab) {
     idleTab.classList.remove("active");
     idleTab.hidden = true;
+  }
+
+  repairNativeTabs(root);
+}
+
+/**
+ * Remove stale hidden attributes from native Token Config tabs.
+ *
+ * This repairs windows affected by older versions of this module during
+ * re-render and prevents native Foundry pages becoming invisible.
+ */
+function repairNativeTabs(root) {
+  for (const tab of getTabContentElements(root)) {
+    if (isIdleAnimationTab(tab)) continue;
+    tab.hidden = false;
   }
 }
 
@@ -299,7 +332,7 @@ async function writeIdleAnimationFlags(tokenDocument, idlePayload) {
  * Token Configuration form.
  */
 function preventEnterSubmittingFromIdleTab(root) {
-  const idleTab = root.querySelector(`[data-tab="${TAB_ID}"].idle-token-animation-token-tab`);
+  const idleTab = getIdleAnimationTab(root);
   if (!idleTab) return;
 
   idleTab.addEventListener("keydown", (event) => {
@@ -314,7 +347,7 @@ function preventEnterSubmittingFromIdleTab(root) {
  * Remove a previously injected tab during re-render.
  */
 function removeExistingIdleTab(root) {
-  root.querySelector(`[data-tab="${TAB_ID}"].idle-token-animation-token-tab`)?.remove();
+  getIdleAnimationTab(root)?.remove();
 
   const navItem = root.querySelector(`.tabs [data-tab="${TAB_ID}"]`);
   navItem?.remove();
@@ -374,6 +407,20 @@ function findTabParent(root) {
  */
 function getTabContentElements(root) {
   return Array.from(root.querySelectorAll(".tab[data-tab]"));
+}
+
+/**
+ * Return the injected Idle Animation tab.
+ */
+function getIdleAnimationTab(root) {
+  return root.querySelector(`[data-tab="${TAB_ID}"].idle-token-animation-token-tab`);
+}
+
+/**
+ * Return whether an element is the injected Idle Animation tab.
+ */
+function isIdleAnimationTab(element) {
+  return element?.dataset?.tab === TAB_ID && element.classList.contains("idle-token-animation-token-tab");
 }
 
 /**
