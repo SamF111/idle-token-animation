@@ -17,24 +17,35 @@ import { initialiseRuntime } from "./runtime.js";
 import { registerSettings } from "./settings.js";
 import { registerSocket, requestSync } from "./socket.js";
 import { registerHooks } from "./hooks.js";
+import { registerDnd5eConditionResolver } from "./dnd5eConditionResolver.js";
+import { registerPf2eConditionResolver } from "./pf2eConditionResolver.js";
 
 Hooks.once("init", () => {
   initialiseRuntime();
   registerSettings();
   registerSocket();
+
+  switch (game.system.id) {
+    case "dnd5e":
+      registerDnd5eConditionResolver();
+      break;
+
+    case "pf2e":
+      registerPf2eConditionResolver();
+      break;
+  }
 });
 
 Hooks.once("ready", () => {
   registerHooks();
 
   /**
-   * Large comment:
    * Every client requests sync when ready.
    *
    * - If this user is the GM, requestSync broadcasts immediately.
    * - If this user is a player, requestSync asks the GM to broadcast.
    *
-   * Later scene changes are handled by hooks.js via canvasReady.
+   * Later scene changes are handled by hooks.js through canvasReady.
    */
   requestSync();
 

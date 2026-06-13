@@ -7,39 +7,104 @@
     <div class="ita-grid">
       <label>
         <span>Motion strength</span>
-        <input type="number" name="amount" value="{{settings.amount}}" min="0" max="5" step="0.1" />
+        <input
+          type="number"
+          name="amount"
+          value="{{settings.amount}}"
+          min="0"
+          max="5"
+          step="0.1"
+        />
       </label>
 
       <label>
         <span>Speed, cycles/s</span>
-        <input type="number" name="freqHz" value="{{settings.freqHz}}" min="0.01" max="3" step="0.01" />
+        <input
+          type="number"
+          name="freqHz"
+          value="{{settings.freqHz}}"
+          min="0.01"
+          max="3"
+          step="0.01"
+        />
       </label>
 
       <label>
         <span>Irregularity</span>
-        <input type="number" name="noise" value="{{settings.noise}}" min="0" max="0.5" step="0.01" />
+        <input
+          type="number"
+          name="noise"
+          value="{{settings.noise}}"
+          min="0"
+          max="0.5"
+          step="0.01"
+        />
       </label>
 
       <label>
         <span>Vertical bob, px</span>
-        <input type="number" name="bobPx" value="{{settings.bobPx}}" min="0" max="10" step="0.05" />
+        <input
+          type="number"
+          name="bobPx"
+          value="{{settings.bobPx}}"
+          min="0"
+          max="10"
+          step="0.05"
+        />
       </label>
 
       <label>
         <span>Horizontal sway, px</span>
-        <input type="number" name="swayPx" value="{{settings.swayPx}}" min="0" max="10" step="0.05" />
+        <input
+          type="number"
+          name="swayPx"
+          value="{{settings.swayPx}}"
+          min="0"
+          max="10"
+          step="0.05"
+        />
       </label>
 
       <label>
         <span>Tilt angle, deg</span>
-        <input type="number" name="rollDeg" value="{{settings.rollDeg}}" min="0" max="15" step="0.05" />
+        <input
+          type="number"
+          name="rollDeg"
+          value="{{settings.rollDeg}}"
+          min="0"
+          max="15"
+          step="0.05"
+        />
       </label>
     </div>
 
     <label class="ita-checkbox-row">
-      <input type="checkbox" name="randomPhase" {{checked settings.randomPhase}} />
+      <input
+        type="checkbox"
+        name="randomPhase"
+        {{checked settings.randomPhase}}
+      />
       <span>Desynchronise token motion</span>
     </label>
+  </section>
+
+  <section class="ita-section">
+    <h3>Condition Responses</h3>
+
+    <label class="ita-checkbox-row">
+      <input
+        type="checkbox"
+        name="conditionAnimationsEnabled"
+        {{checked settings.conditionAnimationsEnabled}}
+      />
+      <span>Enable condition-based animation</span>
+    </label>
+
+    <p class="hint">
+      Recognised actor conditions can reduce, suppress, tremble, or twitch the
+      token's idle animation. Unsupported systems and unrecognised conditions
+      continue using normal idle motion.
+    </p>
   </section>
 
   <footer class="sheet-footer flexrow">

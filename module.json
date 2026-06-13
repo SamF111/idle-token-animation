@@ -2,7 +2,7 @@
   "id": "idle-token-animation",
   "title": "Idle Token Animation",
   "description": "<p><strong>Idle Token Animation</strong> adds subtle ambient motion to living tokens in Foundry VTT.</p><p>Tokens with HP above 0 can gently bob, sway, and tilt while remaining in their true scene position. The module does not move TokenDocuments, does not change token coordinates, and does not affect attacks, ranges, targeting, walls, automation, or grid position.</p>",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "authors": [
     {
       "name": "mintchoc",
@@ -24,5 +24,5 @@
   "changelog": "https://github.com/SamF111/idle-token-animation/releases",
   "license": "LICENSE",
   "manifest": "https://github.com/SamF111/idle-token-animation/releases/latest/download/module.json",
-  "download": "https://github.com/SamF111/idle-token-animation/releases/download/v0.1.0/idle-token-animation.zip"
+  "download": "https://github.com/SamF111/idle-token-animation/releases/download/v0.2.0/idle-token-animation.zip"
 }
