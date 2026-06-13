@@ -28,6 +28,7 @@ jobs:
           python3 --version
           jq --version
           zip --version | head -n 2
+          unzip -v | head -n 2
 
       - name: Validate module.json syntax
         shell: bash
@@ -125,6 +126,27 @@ jobs:
           if [ ! -f "LICENSE" ]; then
             echo "::error::LICENSE missing"
             exit 1
+          fi
+
+      - name: Validate expected folders exist
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          expected_dirs=(
+            "scripts"
+            "styles"
+          )
+
+          for dir in "${expected_dirs[@]}"; do
+            if [ ! -d "$dir" ]; then
+              echo "::error::Expected folder missing: $dir"
+              exit 1
+            fi
+          done
+
+          if [ ! -d "assets" ]; then
+            echo "No assets folder found. Skipping assets."
           fi
 
       - name: JavaScript syntax check
@@ -261,24 +283,6 @@ jobs:
 
           python3 /tmp/check-hbs-partials.py
 
-      - name: Validate expected folders exist
-        shell: bash
-        run: |
-          set -euo pipefail
-
-          expected_dirs=(
-            "assets"
-            "scripts"
-            "styles"
-          )
-
-          for dir in "${expected_dirs[@]}"; do
-            if [ ! -d "$dir" ]; then
-              echo "::error::Expected folder missing: $dir"
-              exit 1
-            fi
-          done
-
       - name: Build validation zip
         shell: bash
         run: |
@@ -291,10 +295,13 @@ jobs:
             module.json
             README.md
             LICENSE
-            assets
             scripts
             styles
           )
+
+          if [ -d "assets" ]; then
+            zip_args+=(assets)
+          fi
 
           if [ -d "templates" ]; then
             zip_args+=(templates)
